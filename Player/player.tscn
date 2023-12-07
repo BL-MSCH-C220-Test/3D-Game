@@ -42,3 +42,8 @@ shape = SubResource("CapsuleShape3D_haqtn")
 [node name="Feet_Collision" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.983108, 0)
 shape = SubResource("BoxShape3D_l2k2n")
+
+[node name="Pickup_Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Pickup_Timer" to="." method="_on_pickup_timer_timeout"]

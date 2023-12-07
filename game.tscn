@@ -1,11 +1,14 @@
-[gd_scene load_steps=11 format=3 uid="uid://bk5kxmtdwjbl7"]
+[gd_scene load_steps=14 format=3 uid="uid://bk5kxmtdwjbl7"]
 
 [ext_resource type="PackedScene" uid="uid://btq1pgruvhfus" path="res://Player/player.tscn" id="1_876en"]
+[ext_resource type="Script" path="res://game.gd" id="1_bfuvf"]
 [ext_resource type="PackedScene" uid="uid://crbcwmapyywn8" path="res://Terrain/terrain.tscn" id="1_lpeyv"]
 [ext_resource type="PackedScene" uid="uid://bp2u2ioju83qv" path="res://Terrain/maze.tscn" id="3_jn2dh"]
 [ext_resource type="Script" path="res://Terrain/Sculpture.gd" id="4_hgxqq"]
 [ext_resource type="PackedScene" uid="uid://s4yyfh2ywncr" path="res://Enemy/NPC.tscn" id="5_koiuc"]
 [ext_resource type="PackedScene" uid="uid://gdtm4b7i8wug" path="res://Enemy/Agent.tscn" id="6_nril3"]
+[ext_resource type="AudioStream" uid="uid://bwy1xwfqga5sv" path="res://Assets/Biological Weapon.ogg" id="7_pp4j8"]
+[ext_resource type="Script" path="res://UI/Menu.gd" id="8_siv2v"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_g8tty"]
 
@@ -23,6 +26,7 @@ polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(4, 3, 5), PackedInt32Arr
 agent_height = 3.0
 
 [node name="Game" type="Node3D"]
+script = ExtResource("1_bfuvf")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_fenk5")
@@ -63,3 +67,75 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.9267, 0, 1.47921)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.213576, 0.976926, 0, -0.976926, 0.213576, 0, 14.5852, 0)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_pp4j8")
+volume_db = -44.036
+autoplay = true
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Menu" type="Control" parent="UI"]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("8_siv2v")
+
+[node name="ColorRect" type="ColorRect" parent="UI/Menu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.501961)
+
+[node name="Label" type="Label" parent="UI/Menu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -178.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Paused"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Restart" type="Button" parent="UI/Menu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -20.0
+offset_right = 100.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Restart"
+
+[node name="Quit" type="Button" parent="UI/Menu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = 36.0
+offset_right = 100.0
+offset_bottom = 76.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Quit"
+
+[connection signal="pressed" from="UI/Menu/Restart" to="UI/Menu" method="_on_button_pressed"]
+[connection signal="pressed" from="UI/Menu/Quit" to="UI/Menu" method="_on_quit_pressed"]

@@ -39,6 +39,13 @@ func _on_area_3d_body_exited(body):
 		$Timer.stop()
 
 func damage():
-	dying = true
-	$AnimationPlayer.play("Death")
-	velocity = Vector3.ZERO
+	if not dying:
+		dying = true
+		$AnimationPlayer.play("Death")
+		velocity = Vector3.ZERO
+
+
+func _on_timer_timeout():
+	for b in $Area3D.get_overlapping_bodies():
+		if b.has_method("damage"):
+			b.damage()
